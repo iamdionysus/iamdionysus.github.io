@@ -8,7 +8,7 @@ title: How to make pry work with inf ruby
 * create ~/.irbrc if you don't have one
 * add this
 
-```rub
+```ruby
 require 'pry'
 Pry.start
 exit
