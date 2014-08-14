@@ -6,7 +6,7 @@ pygments:         true
 permalink:        pretty
 
 # Setup
-title:            iamdionysus blog
+title:            iamdionysus
 tagline:          'to study'
 description:      'organize based on Jekyll and Hyde'
 url:              http://iamdionysus.github.io
