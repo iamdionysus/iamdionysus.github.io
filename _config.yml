@@ -6,16 +6,16 @@ pygments:         true
 permalink:        pretty
 
 # Setup
-title:            Hyde
-tagline:          'A Jekyll theme'
-description:      'A brazen two-column <a href="http://jekyllrb.com" target="_blank">Jekyll</a> theme that pairs a prominent sidebar with uncomplicated content. Made by <a href="https://twitter.com/mdo" target="_blank">@mdo</a>.'
-url:              http://hyde.getpoole.com
+title:            iamdionysus blog
+tagline:          'to study'
+description:      'organize based on Jekyll and Hyde'
+url:              http://iamdionysus.github.io
 
 author:
-  name:           'Mark Otto'
+  name:           'iamdionysus'
   url:            https://twitter.com/mdo
 
-paginate:         5
+paginate:         10
 
 # Custom vars
 version:          2.0.0
