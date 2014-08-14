@@ -6,19 +6,19 @@ pygments:         true
 permalink:        pretty
 
 # Setup
-title:            iamdionysus
+title:            dionysus
 tagline:          'to study'
 description:      'organize based on Jekyll and Hyde'
 url:              http://iamdionysus.github.io
 
 author:
   name:           'iamdionysus'
-  url:            https://twitter.com/mdo
+  url:            
 
 paginate:         10
 
 # Custom vars
-version:          2.0.0
+version:          1.0.0
 
 github:
   repo:           https://github.com/poole/hyde
