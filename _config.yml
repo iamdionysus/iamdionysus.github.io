@@ -6,9 +6,9 @@ pygments:         true
 permalink:        pretty
 
 # Setup
-title:            dionysus
+title:            'dionysus'
 tagline:          'to study'
-description:      'organize based on Jekyll and Hyde'
+description:      'organize everything with Jekyll and Hyde'
 url:              http://iamdionysus.github.io
 
 author:
