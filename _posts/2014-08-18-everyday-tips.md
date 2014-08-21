@@ -23,3 +23,9 @@ Multi-term is only working for linux. I want to install multi-term only when I u
 
 ## Getting rid of "DL is deprecated, please use Fiddle" message
 When running IRB or Pry under windows, this warning message shows up. If it's too annoying, it can be fixed by [editing lib/ruby/site_ruby/2.0.0/readline.rb.](http://stackoverflow.com/questions/15590450/ruby-2-0-0p0-irb-error-dl-is-deprecated-please-use-fiddle) Alternatively, you can install [rb-readline gem and add configuration to .pryrc and irb.](http://zcoding.blogspot.sg/2014/04/get-rid-of-dl-deprecated-message-from.html)
+
+## Add all untracked files to the staging area under magit-status
+[See the manual.](http://magit.github.io/magit.html#Untracked-files)
+
+* Cursor should be right at Untracked files section title and hit ```s```
+* Cursor can be any place but hit ```C-u S```(large capital)
