@@ -8,24 +8,30 @@ Ruby on rails tutorial from Michael Hartl is good. It is well structured with co
 
 ## Install ruby and set up Rails
 ### Ubuntu 14.04
-After I play around with rvm and rbenv, I settled down to rbenv. [Good instructions to install and setup on Ubuntu 14.04.](https://gorails.com/setup/ubuntu/14.04)
+After I play around with rvm and rbenv, I settled down to rbenv. [Good instructions to install and setup on Ubuntu 14.04.](https://gorails.com/setup/ubuntu/14.04) To use sqlserver with tiny_tds, 'freetds' needs to be installed. [Here's instruction to install in Ubuntu.](https://github.com/rails-sqlserver/activerecord-sqlserver-adapter/wiki/Platform-Installation---Ubuntu)
 
 ### Windows
 I installed it with [RubyInstaller.](http://rubyinstaller.org/downloads) To install Jekyll on Windows I happened to install Ruby DevKit as well. It might be needed in the future for gems requiring the dependency. [Here is the instruction to install Ruby DevKit](http://jekyll-windows.juthilo.com/1-ruby-and-devkit) 
 
-### Gems
-Installing rails gem is simple. ```gem install rails``` To use sqlserver from Rails, we need more gems. [Follow the instruction from TinyTDS.](https://github.com/rails-sqlserver/activerecord-sqlserver-adapter/wiki/Using-TinyTds) Make sure tiny_tds is included in the Gemfile as well.
+
+## Test the Rails setup
+### Install Gems and scaffold the project
+Installing rails gem is simple. ```gem install rails``` Scaffold the project to use sqlserver as database.
+
+```
+rails new my-project-name --database=sqlserver --git
+```
+
+To use sqlserver from Rails, we need to set up more gems. [Follow the instruction from TinyTDS.](https://github.com/rails-sqlserver/activerecord-sqlserver-adapter/wiki/Using-TinyTds) Make sure tiny_tds is included in the Gemfile as well.
 
 ```
 gem 'tiny_tds'
 gem 'activerecord-sqlserver-adapter'
 ```
 
-## Test the Rails setup
-### Scaffold the project and test run it
+### test run it
 
-```ruby
-rails new my-project-name --database=sqlserver --skip-test-unit
+```
 rails server
 rails server -e production
 ``` 
@@ -38,7 +44,7 @@ After editing the Gemfile, don't forget to do ```bundle update```.
 
 When run rails in production envrionment, ```ERROR RuntimeError: Missing `secret_key_base` for 'production' environment, set this value in `config/secrets.yml` ``` error will pop up. There are couple of ways to fix this problem.
 
-* Use figaro gem and [set it up](https://gist.github.com/iamdionysus/de3873dddd71fadaf261).
+* Use figaro gem and [set it up](https://github.com/laserlemon/figaro)
 * Windows, in Computer > Property> Advanced system settings > Envrionment Variables..., add the environment variable 'SECRET\_KEY\_BASE'
 * Linux, add the enironment variable to the shell.
 
@@ -102,3 +108,71 @@ class UserResult < ActiveRecord::Base
 end
 ```
 
+### Scaffold model and change migration to get composite primary key working
+First generate scaffold as usual with migration.
+
+```
+rails generate scaffold Student roll_no:integer, name:string, grade:integer
+```
+
+After that, let's change migration file. Many tricks used.
+
+* [reversible](http://guides.rubyonrails.org/migrations.html#using-reversible) should be used to ensure the custom primary key will be dropped when we rollback the migration
+* [change\_column\_null](http://stackoverflow.com/questions/5966840/how-to-change-a-nullable-column-to-not-nullable-in-a-rails-migration/22994790#22994790) is better solution to change the generated column to be not null in rails 4+
+* execute SQL using [herdoc](http://stackoverflow.com/questions/2337510/ruby-can-i-write-multi-line-string-with-no-concatenation) will make the code look better
+
+```ruby
+class CreateStudents < ActiveRecord::Migration
+  def change
+    create_table :students do |t|
+      t.integer :roll_no
+      t.string :name
+      t.integer :grade
+
+      t.timestamps
+    end
+
+    change_column_null(:students, :roll_no, false)
+    change_column_null(:students, :name, false)
+
+    reversible do |dir|
+      dir.up do
+        remove_column :students, :id
+        execute <<-SQL
+          ALTER TABLE students
+            ADD CONSTRAINT pk_roll_name
+            PRIMARY KEY (roll_no, name)
+        SQL
+      end
+
+      dir.down do
+        execute <<-SQL
+          ALTER TABLE students
+            DROP CONSTRAINT pk_roll_name
+        SQL
+      end
+
+    end
+  end
+end
+```
+
+
+## Look & Feel
+## Create static pages
+### Scaffold static pages
+
+```
+rails generate controller StaticPages home help
+```
+
+
+### set up the routes
+Open config/routes.rb and edit the routes.
+
+```ruby
+root 'static_pages#home'
+get 'help' => 'static_pages#help'
+```
+
+It is giving us named routes of root\_path, help\_path as well. Having `get 'home' => 'static_pages#home'` is not really good idea. It is hard to test the routes since the result path will be '/' from `assert_routing '/home', controller: 'static_pages', action: 'home'` test instead of '/home'. You can use assert_recognizes to test though.

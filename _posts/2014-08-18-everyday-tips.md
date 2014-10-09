@@ -30,3 +30,21 @@ When running IRB or Pry under windows, this warning message shows up. If it's to
 
 * Cursor should be right at Untracked files section title and hit ```s```
 * Cursor can be any place but hit ```C-u S```(large capital)
+
+## How to move through the ido list in emacs
+C-s, C-r
+
+
+## Ruby heredoc, how to create pretty multi line string
+```ruby
+execute <<-SQL
+  ALTER TABLE students
+	ADD CONSTRAINT pk_students_roll_no_name
+	PRIMARY KEY (roll_no, name)
+SQL
+```
+
+## SQL PRIMARY KEY Constraint, CREATE and DROP
+When drop a primary key constraint, mysql has different syntax. [Check this out.](http://www.w3schools.com/sql/sql_primarykey.asp)
+
+
