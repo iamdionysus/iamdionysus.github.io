@@ -4,7 +4,7 @@ title: New Ruby On Rails Tutorial with sqlserver under windows and linux environ
 ---
 
 ## Why?
-Ruby on rails tutorial from Michael Hartl is good. It is well structured with concrete example. However, **there are many outdated instructions** since his recent one is based on rails 4.0. For example, Rails 4.1 comes with Spring for application preloader. Trying to follow the Spork instruction in his book is a bit tough under the Rails 4.1 environment. And Rspec as well. **I will follow each steps from his tutorial but with simpler and newer instructions**.
+Ruby on rails tutorial from Michael Hartl is good. It is well structured with concrete example. However, it is based on rails 4.0. For example, Rails 4.1 comes with Spring for application preloader. Trying to follow the Spork instruction in his book is a bit tough under the Rails 4.1 environment. And Rspec as well. **I will follow each steps from his tutorial but with simpler and newer instructions**. Although he is updating the tutorial to 4.1 version now.
 
 ## Install ruby and set up Rails
 ### Ubuntu 14.04
@@ -87,6 +87,20 @@ rake db:rollback
 rails destroy model User
 ```
 
+## Install Phusion Passenger with nginx version and set up
+### How to install on Ubuntu
+[Follow this instruction](https://www.phusionpassenger.com/documentation/Users%20guide%20Nginx.html#install_on_debian_ubuntu)
+
+### How I set up /etc/nginx/nginx.conf
+Just like the manual, I uncomment the passenger\_root. For passenger\_ruby, since I am using rbenv, I check the path by `which ruby` and use the path.
+
+```
+passenger_root /usr/lib/ruby/vendor_ruby/phusion_passenger/locations.ini;
+passenger_ruby /home/user_name/.rbenv/shims/ruby;
+```
+
+
+
 ## Various Scaffolding 
 
 ### Scaffold model to use table from already existing database
@@ -107,6 +121,12 @@ class UserResult < ActiveRecord::Base
   self.primary_keys = :JoinDate, :Subject, :Name
 end
 ```
+
+### Scaffold model without timestamps
+```
+rails generate model test --timestamps=false
+```
+
 
 ### Scaffold model and change migration to get composite primary key working
 First generate scaffold as usual with migration.
