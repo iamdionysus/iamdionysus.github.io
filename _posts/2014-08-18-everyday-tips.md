@@ -6,9 +6,6 @@ title: Tips from everyday encounter
 ## Google analytics says "Tracking Not Installed"
 I copy and pasted the tracking code to jekyll _includes/head.html. However, I wasn't sure about whether it's really installed or not. I followed the google's instruction but what I see was "Tracking Not Installed". **It will be showing correct status after a while** according to the [stackoverflow answer](http://stackoverflow.com/questions/16952379/google-analytics-says-tracking-not-installed-but-i-see-it-working). Quick way to check is [visiting the Real-Time section](https://support.google.com/analytics/answer/1638635?hl=en) in the analytics menu.
 
-## Auto install Emacs packages
-Whenever I reinstall Emacs, I had to list-packages and check the packages that I have to install to maintain the system as identical as possible. Recently I found [use-package](https://github.com/jwiegley/use-package) and **auto install Emacs package can be done easily by using the use-package** [according to stackoverflow answer.](http://stackoverflow.com/questions/21064916/auto-install-emacs-packages-with-melpa/21342883#21342883) Actual init.el file sample which is using this can be found [here](https://github.com/jordonbiondo/.emacs.d/blob/master/init.el).
-
 
 ## How to configure Emacs conditional to operating system
 Multi-term is only working for linux. I want to install multi-term only when I use Emacs under linux and bind keys as well. The key is [checking system-type in elisp.](http://stackoverflow.com/questions/1817257/how-to-determine-operating-system-in-elisp)
@@ -48,3 +45,11 @@ SQL
 When drop a primary key constraint, mysql has different syntax. [Check this out.](http://www.w3schools.com/sql/sql_primarykey.asp)
 
 
+## How to add sudo to user
+Run `sudo visudo` and edit the file.
+
+```
+# User privilege specification
+root      ALL=(ALL:ALL) ALL
+username  ALL=(ALL:ALL) ALL
+```
