@@ -196,3 +196,54 @@ get 'help' => 'static_pages#help'
 ```
 
 It is giving us named routes of root\_path, help\_path as well. Having `get 'home' => 'static_pages#home'` is not really good idea. It is hard to test the routes since the result path will be '/' from `assert_routing '/home', controller: 'static_pages', action: 'home'` test instead of '/home'. You can use assert_recognizes to test though.
+
+
+
+## Redis
+### How to install redis in rails
+Add [redis-rb](https://github.com/redis/redis-rb) to gemfile. `gem 'redis'` And create an initializer in config/initializers/redis.rb.
+
+```ruby
+# Assuming redis is running on localhost and port 6379
+$redis = Redis.new
+# $redis = Redis.new(host: '127.0.0.1', port: 6380)
+```
+
+### How to test the set up is working
+run `rails console` and test it.
+
+```ruby
+$redis.set 'test_key', 'value'
+$redis.get 'test_key'
+```
+
+### How to use in controller and view
+Just use it like any other controller and view. For example, in counter_controller.rb,
+
+```ruby
+def index
+  @counter = $redis.get('counter')
+end
+
+
+private
+  # publish the counter is updated
+  def notify_counter_update
+    $redis.incr 'counter'
+	$redis.publish 'counter_updated', 'TRUE'
+  end
+```
+
+and in the index.html.erb
+
+```erb
+<p>number of counter updated: <%= @counter %></p>
+```
+
+
+
+### Resources
+
+* [Using Redis with Ruby on Rails](http://jimneath.org/2011/03/24/using-redis-with-ruby-on-rails.html)
+* [Redis Pub/Sub... How Does it Work?](http://robots.thoughtbot.com/redis-pub-sub-how-does-it-work)
+
