@@ -45,11 +45,45 @@ SQL
 When drop a primary key constraint, mysql has different syntax. [Check this out.](http://www.w3schools.com/sql/sql_primarykey.asp)
 
 
+## How to add user in CentOS
+
+```
+useradd <username>
+passwd <username>
+```
+
+
 ## How to add sudo to user
-Run `sudo visudo` and edit the file.
+Run `sudo visudo` and edit the file in ubuntu. `sudo /usr/sbin/visudo` in CentOS.
 
 ```
 # User privilege specification
 root      ALL=(ALL:ALL) ALL
 username  ALL=(ALL:ALL) ALL
 ```
+
+## rails spring conflict from Permission denied @ rb_sysopen
+[stackoverflow answer](http://stackoverflow.com/questions/23822491/ruby-on-rails-permission-denied-when-using-rails-generate-controller-welcome)
+
+```
+sudo chmod -R 1777 /tmp
+```
+
+## How to install latest git
+[This is CentOS guide.](https://www.digitalocean.com/community/tutorials/how-to-install-git-on-a-centos-6-4-vps)
+
+```
+sudo yum groupinstall "Development Tools"
+sudo yum install zlib-devel perl-ExtUtils-MakeMaker asciidoc xmlto openssl-devel
+cd ~
+wget -O git.zip https://github.com/git/git/archive/master.zip
+unzip git.zip
+cd git-master
+make configure
+./configure --prefix=/usr/local
+make all doc
+sudo make install install-doc install-html
+```
+
+To update git, make the source repository as git. `git clone git://github.com/git/git`
+

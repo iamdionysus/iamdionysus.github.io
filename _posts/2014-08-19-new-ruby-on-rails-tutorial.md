@@ -14,6 +14,19 @@ After I play around with rvm and rbenv, I settled down to rbenv. [Good instructi
 I installed it with [RubyInstaller.](http://rubyinstaller.org/downloads) To install Jekyll on Windows I happened to install Ruby DevKit as well. It might be needed in the future for gems requiring the dependency. [Here is the instruction to install Ruby DevKit](http://jekyll-windows.juthilo.com/1-ruby-and-devkit) 
 
 
+## From source under Linux
+Find out link of the [source version you want to get.](https://www.ruby-lang.org/en/downloads/)
+
+```
+wget <the source link>
+tar -xzvf <the file>
+cd <the folder>
+./configure
+make
+make install
+ruby -v
+```
+
 ## Test the Rails setup
 ### Install Gems and scaffold the project
 Installing rails gem is simple. ```gem install rails``` Scaffold the project to use sqlserver as database.
