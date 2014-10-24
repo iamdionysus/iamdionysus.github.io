@@ -185,6 +185,11 @@ cat ~/.ssh/gitlab/id_rsa.pub
 ```
 Paste the result.
 
+### Test whether it's working
+```
+ssh -T git@github.com
+```
+
 ### Trouble shooting
 #### Bad owner or permissions on ~/.ssh/config
 [See this answer.](http://serverfault.com/questions/253313/ssh-hostname-returns-bad-owner-or-permissions-on-ssh-config)
