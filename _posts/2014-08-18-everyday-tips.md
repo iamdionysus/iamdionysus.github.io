@@ -70,20 +70,125 @@ sudo chmod -R 1777 /tmp
 ```
 
 ## How to install latest git
-[This is CentOS guide.](https://www.digitalocean.com/community/tutorials/how-to-install-git-on-a-centos-6-4-vps)
+[Guide from official website and applied to CentOS case](http://git-scm.com/book/en/Getting-Started-Installing-Git)
 
 ```
-sudo yum groupinstall "Development Tools"
-sudo yum install zlib-devel perl-ExtUtils-MakeMaker asciidoc xmlto openssl-devel
+yum install curl-devel expat-devel gettext-devel openssl-devel zlib-devel
 cd ~
 wget -O git.zip https://github.com/git/git/archive/master.zip
 unzip git.zip
 cd git-master
-make configure
-./configure --prefix=/usr/local
-make all doc
-sudo make install install-doc install-html
+make prefix=/usr/local all
+sudo make prefix=/usr/local install
 ```
 
-To update git, make the source repository as git. `git clone git://github.com/git/git`
+To update git, make the source repository as git.
 
+```
+git clone git://github.com/git/git
+```
+
+## sudo: gem: command not found error in CentOS
+After I install ruby from the source as root user in CentOS, I tried to install gem from other sudoer user by `sudo gem install tiny_tds`. However, i get the error. It's because gem lives in the /usr/local/bin from the default ruby installation setting. Simple solution will be adding symbolic link in the /sbin or /usr/sbin. `sudo ln -s /usr/local/bin/gem /sbin/gem` worked out. [This](http://tutcenter.com/linux/centos/fixing-sudo-service-command-not-found/) was not the case but gave me a clue to tackle this error.
+
+## How to sync a fork to upstream repository
+[Configure upstream](https://help.github.com/articles/configuring-a-remote-for-a-fork/) and [merge](https://help.github.com/articles/syncing-a-fork/). If the upstream should be always right, merge it by `git merge --strategy-option theirs`. I would recommend to do this way first and compare forked master to my forked branch and handle the merge with the web interface.
+
+## How to install freetds and test it
+### CentOS 7
+#### Install the EPEL repository
+```
+wget http://dl.fedoraproject.org/pub/epel/7/x86_64/e/epel-release-7-2.noarch.rpm
+sudo rpm -Uvh epel-release-7*.rpm
+```
+
+#### Install freetds
+This is not tested fully since I am not sure [Remi Repo is needed.](http://bloke.org/linux/freeds/) The following looks like working in CentOS 7.
+```
+sudo yum install freetds freetds-devel
+```
+
+#### Edit freetds.conf file
+The default freetds.conf location is `/usr/local/etc/freetds/conf` Open the file and edit it. For sql server 2012 case, tds version = 8.0 is needed
+
+```
+[servername]
+        host = 192.168.174.119
+        port = 1433
+        tds version = 8.0
+```
+
+If the tds version is not sure, we can test connection with this first and use it.
+
+```
+TDSVER=8.0 tsql -H 192.168.174.119 -p 1433 -U itg -P itg123
+```
+
+#### Check connection
+
+```
+tsql -S servername -U username -P password
+```
+
+[See this](http://www.freetds.org/userguide/confirminstall.htm)
+
+
+## Manage multiple SSH keys
+If I'm working  github, and internal gitlab site, it's tricky to make both happy without [SSH keys management.](http://www.robotgoblin.co.uk/blog/2012/07/24/managing-multiple-ssh-keys/)
+
+### Create folder for each host
+
+```
+cd ~/.ssh
+mkdir github
+mkdir gitlab
+```
+
+### Generate SSH keys for each host
+
+```
+ssh-keygen -t rsa -C "my_email_for_github@example.com"
+Generating public/private rsa key pair.
+# Enter file in which to save the key (/home/you/.ssh/id_rsa): [Press enter]
+```
+
+Type `/home/you/.ssh/github/id_rsa` for github and do it again for the gitlab as well.
+
+### Create config file and edit it
+
+```
+cd ~/.ssh
+touch config
+```
+
+And it should look like this
+
+```
+Host github.com
+	User git
+	Hostname github.com
+	PreferredAuthentications publickey
+	IdentityFile ~/.ssh/github/id_rsa
+
+Host gitlab.com
+# Not sure User git is needed, without it, it's working now
+#	User git 
+	Hostname internal.gitlab
+	PreferredAuthentications publickey
+	IdentityFile ~/.ssh/gitlab/id_rsa
+```
+
+### Register the id_rsa.pub to each host
+```
+cat ~/.ssh/github/id_rsa.pub
+cat ~/.ssh/gitlab/id_rsa.pub
+```
+Paste the result.
+
+### Trouble shooting
+#### Bad owner or permissions on ~/.ssh/config
+[See this answer.](http://serverfault.com/questions/253313/ssh-hostname-returns-bad-owner-or-permissions-on-ssh-config)
+
+```
+chmod 600 ~/.ssh/config
+```

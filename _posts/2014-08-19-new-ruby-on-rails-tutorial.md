@@ -101,18 +101,24 @@ rails destroy model User
 ```
 
 ## Install Phusion Passenger with nginx version and set up
-### How to install on Ubuntu
-[Follow this instruction](https://www.phusionpassenger.com/documentation/Users%20guide%20Nginx.html#install_on_debian_ubuntu)
-
-### How I set up /etc/nginx/nginx.conf
-Just like the manual, I uncomment the passenger\_root. For passenger\_ruby, since I am using rbenv, I check the path by `which ruby` and use the path.
-
+### Install via rubygems
+[Simple two steps.](https://www.phusionpassenger.com/documentation/Users%20guide%20Nginx.html#rubygems_generic_install)
 ```
-passenger_root /usr/lib/ruby/vendor_ruby/phusion_passenger/locations.ini;
-passenger_ruby /home/user_name/.rbenv/shims/ruby;
+gem install passenger
+passenger-install-nginx-module
 ```
 
+### Make nginx service available in CentOS7
+Get the service script, copy to `/lib/systemd/system/nginx.service` and eable it.
+```
+git clone https://github.com/Asciant/CentOS7-nginx-passenger-systemd.git
+cp CentOS7-nginx-passenger-systemd/nginx.service /lib/systemd/system/
+sudo systemctl start nginx.service
+sudo systemctl enable nginx.service
+```
 
+### Set up the nginx.conf file
+When nginx is installed from the above, it will be in `/opt/nginx`. 
 
 ## Various Scaffolding 
 
