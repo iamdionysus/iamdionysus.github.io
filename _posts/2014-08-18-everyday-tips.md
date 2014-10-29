@@ -70,7 +70,7 @@ sudo chmod -R 1777 /tmp
 ```
 
 ## How to install latest git
-[Guide from official website and applied to CentOS case](http://git-scm.com/book/en/Getting-Started-Installing-Git)
+[Guide from official website](http://git-scm.com/book/en/Getting-Started-Installing-Git) and applied to CentOS case
 
 ```
 yum install curl-devel expat-devel gettext-devel openssl-devel zlib-devel
@@ -161,7 +161,7 @@ cd ~/.ssh
 touch config
 ```
 
-And it should look like this
+And it should look like this. Make sure Host matches with the actual host name of the server if it's running under windows mingw32. from `ssh -v git@internal.gitlab`, I saw the ssh was not be able to find IndentityFile if the Host is set up different name.
 
 ```
 Host github.com

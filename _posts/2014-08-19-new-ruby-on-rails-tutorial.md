@@ -27,6 +27,14 @@ make install
 ruby -v
 ```
 
+From CentOS 7, these packages might be needed before the build.
+
+```
+sudo yum groupinstall "Development Tools"
+sudo yum install readline-devel
+```
+
+
 ## Test the Rails setup
 ### Install Gems and scaffold the project
 Installing rails gem is simple. ```gem install rails``` Scaffold the project to use sqlserver as database.
@@ -103,13 +111,15 @@ rails destroy model User
 ## Install Phusion Passenger with nginx version and set up
 ### Install via rubygems
 [Simple two steps.](https://www.phusionpassenger.com/documentation/Users%20guide%20Nginx.html#rubygems_generic_install)
+
 ```
 gem install passenger
 passenger-install-nginx-module
 ```
 
 ### Make nginx service available in CentOS7
-Get the service script, copy to `/lib/systemd/system/nginx.service` and eable it.
+Get the service [script](https://github.com/Asciant/CentOS7-nginx-passenger-systemd), copy to `/lib/systemd/system/nginx.service` and eable it.
+
 ```
 git clone https://github.com/Asciant/CentOS7-nginx-passenger-systemd.git
 cp CentOS7-nginx-passenger-systemd/nginx.service /lib/systemd/system/
