@@ -24,6 +24,7 @@ In the Gemfile for the project, add the following.
 gem 'redcarpet', :git => 'git://github.com/tanoku/redcarpet.git'
 gem 'redcarpet', :git => 'git://github.com/tanoku/redcarpet.git', :branch => 'branch-to-install'
 gem 'redcarpet', :git => 'git://github.com/tanoku/redcarpet.git', :tag => 'tag_to_install'
+gem 'gem_in_gitlab', :git => "http://username:#{ENV['g_pass']}@gitlab.internal/pass/to/repo/gem_in_gitlab.git"
 ```
 
 [It should have .gemspec in there.](http://stackoverflow.com/questions/2577346/how-to-install-gem-from-github-source)

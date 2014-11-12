@@ -121,7 +121,7 @@ The default freetds.conf location is `/usr/local/etc/freetds/conf` Open the file
 If the tds version is not sure, we can test connection with this first and use it.
 
 ```
-TDSVER=8.0 tsql -H 192.168.174.119 -p 1433 -U itg -P itg123
+TDSVER=8.0 tsql -H ip_address -p 1433 -U username -P password
 ```
 
 #### Check connection
@@ -197,3 +197,6 @@ ssh -T git@github.com
 ```
 chmod 600 ~/.ssh/config
 ```
+
+## How install emacs from source
+[See this](http://linuxg.net/how-to-install-emacs-24-4-on-ubuntu-14-10-ubuntu-14-04-and-derivative-systems/)
