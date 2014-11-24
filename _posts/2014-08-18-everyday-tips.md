@@ -200,3 +200,17 @@ chmod 600 ~/.ssh/config
 
 ## How install emacs from source
 [See this](http://linuxg.net/how-to-install-emacs-24-4-on-ubuntu-14-10-ubuntu-14-04-and-derivative-systems/)
+
+## How to extract bz2
+
+```
+tar xvjf filename.tar.bz2
+```
+
+* tar: Tape ARchiver
+* x: extract
+* v: verbose output
+* j: deal with bzipped file
+* f: read from a file, rather than a tape device
+
+[see this](http://www.linuxquestions.org/questions/linux-newbie-8/how-to-extract-a-tar-bz2-file-161371/)
