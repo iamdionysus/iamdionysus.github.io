@@ -46,3 +46,36 @@ Check these out.
 
 * [2008 source](http://blog.bitmelt.com/2008/10/connecting-to-multiple-database-in-ruby.html)
 * [official guide using SQL query](http://guides.rubyonrails.org/active_record_querying.html#finding-by-sql)
+
+## How to find the first record with custom condition
+
+```ruby
+Client.find_by first_name: 'Lifo'
+
+Client.where(first_name: 'Lifo').take
+```
+
+## How to use active record serializer in custom way
+[ActiveModel::Serializer](https://github.com/rails-api/active_model_serializers) is efficient. You don't have to write many things but you can acheive many things. [Check this out](http://eewang.github.io/blog/2013/07/23/using-activemodel-serializers-to-build-great-json-interfaces/) how it's used.
+
+## All about rails genearete model
+### rails generate model field:type - available types
+```
+:primary_key, :string, :text, :integer, :float, :decimal, :datetime, :timestamp,
+:time, :date, :binary, :boolean, :references
+```
+
+[Check this stackoverflow answer](http://stackoverflow.com/questions/4384284/rails-generate-model-fieldtype-what-are-the-options-for-fieldtype)
+
+### How to set limit for field of integer to use bigint
+```
+rails generate model product quantity:integer{8}
+```
+
+[Check this blog](http://railsguides.net/advanced-rails-model-generators/)
+
+
+## Message bus, to build real time web
+
+* [how it's used in discourse](http://balinterdi.com/2014/01/14/how-real-time-updates-work-in-discourse.html)
+* [github repo](https://github.com/SamSaffron/message_bus)
